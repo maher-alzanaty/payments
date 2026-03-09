@@ -55,6 +55,31 @@ export default function PaymentPage() {
       },
     },
   ];
+  const [lang, setLang] = useState("ar");
+  const t = {
+  ar: {
+    choosePayment: "اختر طريقة الدفع",
+    choosePaymentDesc: "اختر طريقة الدفع المناسبة لاتمام العملية بأمان",
+    beneficiaryInfo: "معلومات المستفيد",
+    accountNumber: "رقم الحساب",
+    copy: "نسخ",
+    confirm: "تأكيد الدفع",
+    serviceCost: "قيمة الخدمة",
+    transactionFee: "رسوم المعاملة",
+    total: "الإجمالي",
+  },
+  en: {
+    choosePayment: "Choose Payment Method",
+    choosePaymentDesc: "Select a payment method to complete the process safely",
+    beneficiaryInfo: "Beneficiary Information",
+    accountNumber: "Account Number",
+    copy: "Copy",
+    confirm: "Confirm Payment",
+    serviceCost: "Service Cost",
+    transactionFee: "Transaction Fee",
+    total: "Total",
+  },
+};
 
   const [selected, setSelected] = useState("bankak");
   const [preview, setPreview] = useState<string | null>(null);
@@ -76,12 +101,23 @@ export default function PaymentPage() {
   };
 
   return (
-    <div>
+   <div>
+     {/* <div lang={lang} dir={lang === "ar" ? "rtl" : "ltr"} ></div> */}
+      {/* <div className="flex justify-end p-4 bg-white">
+  <button
+    onClick={() => setLang(lang === "ar" ? "en" : "ar")}
+    className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+  >
+    {lang === "ar" ? "English" : "العربية"}
+  </button>
+</div> */}
+ 
     <div className="bg-gray-100 min-h-screen flex justify-center p-6 hidden lg:flex">
+      
       <div className="bg-white w-full max-w-8xl rounded-2xl shadow-xl p-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
 
         {/* LEFT SIDE - INVOICE */}
-        <div className="bg-gradient-to-b from-blue-50 to-white rounded-2xl shadow-lg p-6 space-y-6 text-right text-gray-700 hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div className="bg-gradient-to-b from-blue-50 to-white rounded-2xl shadow-lg p-6 space-y-6 text-right text-gray-700 hover:shadow-2xl transition transform hover:-translate-y-1" dir="rtl">
           {/* Header */}
           <div className="flex justify-between items-center border-b pb-3">
             <div>
@@ -124,25 +160,28 @@ export default function PaymentPage() {
           </div>
 
           {/* Costs Section */}
-          <div className="border-t pt-4 space-y-3">
-            <h3 className="font-semibold text-gray-700">:التكاليف</h3>
+          <div className="border-t pt-4 space-y-3 ">
+            <h3 className="font-semibold text-gray-700">التكاليف</h3>
             <div className="flex justify-between items-center bg-blue-50 rounded-lg p-2 shadow-sm">
+              <span className="text-gray-500 font-medium">قيمة الخدمة:</span>
               <span className="text-lg font-bold text-blue-700">
                 {current?.invoice.serviceCost} <span className="text-sm">{current?.invoice.currency}</span>
               </span>
-              <span className="text-gray-500 font-medium">:قيمة الخدمة</span>
+              
             </div>
             <div className="flex justify-between items-center bg-blue-50 rounded-lg p-2 shadow-sm">
+              <span className="text-gray-500 font-medium">رسوم المعاملة:</span>
               <span className="text-lg font-bold text-blue-700">
                 {current?.invoice.transactionFee} <span className="text-sm">{current?.invoice.currency}</span>
               </span>
-              <span className="text-gray-500 font-medium">:رسوم المعاملة</span>
+              
             </div>
-            <div className="flex justify-between items-center bg-green-50 rounded-lg p-2 shadow-sm border-t mt-2">
+            <div className="flex justify-between items-center bg-green-50 rounded-lg p-2 shadow-sm border mt-2">
+                     <span className="text-gray-700 font-semibold">الإجمالي:</span>
               <span className="text-lg font-bold text-green-600">
                 {current!.invoice.serviceCost + current!.invoice.transactionFee} <span className="text-sm">{current?.invoice.currency}</span>
               </span>
-              <span className="text-gray-700 font-semibold">:الإجمالي</span>
+       
             </div>
           </div>
         </div>
@@ -162,7 +201,7 @@ export default function PaymentPage() {
     <div
       onClick={() => setSelected(method.id)}
       className={`relative cursor-pointer border rounded-xl w-[120px] h-[120px]
-        flex flex-col justify-between transition-all duration-200 transform
+        flex flex-col justify-between transition-all duration-200 transform shadow-md
         hover:border-blue-500 hover:shadow-lg hover:scale-105 hover:bg-blue-100
         ${selected === method.id ? "border-blue-600 shadow-md scale-105 bg-blue-50" : "border-gray-300"}`}
     >
@@ -200,6 +239,7 @@ export default function PaymentPage() {
                 className="bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-800 transition cursor-pointer"
               >
                 نسخ
+                  <AiOutlineCopy className="text-lg" />
               </button>
               <div className="text-right flex flex-col">
                 <span className="text-sm text-gray-500">: رقم الحساب</span>
@@ -355,21 +395,21 @@ export default function PaymentPage() {
       <div className="w-full max-w-md">
 
         {/* Invoice Summary */}
-        <div className="bg-gray-100 rounded-xl p-4 shadow-sm space-y-2 mb-4 mt-4">
+        <div className="bg-gray-100 rounded-xl p-4 shadow-sm space-y-2 mb-4 mt-4" dir="auto">
           <div className="flex justify-between text-gray-500">
-        
-            <span>{current?.invoice.currency} {current?.invoice.serviceCost} </span>
-                <span>المبلغ الإجمالي</span>
+         <span>المبلغ الإجمالي</span>
+            <span> {current?.invoice.serviceCost} {current?.invoice.currency} </span>
+               
           </div>
           <div className="flex justify-between text-gray-500">
-           
-            <span>{current?.invoice.currency} {current?.invoice.transactionFee} </span>
              <span>رسوم المعاملة</span>
+            <span> {current?.invoice.transactionFee} {current?.invoice.currency} </span>
+           
           </div>
           <div className="flex justify-between font-bold text-blue-700 border-t pt-2 mt-2">
-           
-            <span> {current?.invoice.currency} {current!.invoice.serviceCost + current!.invoice.transactionFee} </span>
-             <span>المبلغ الكلي</span>
+            <span>المبلغ الكلي</span>
+            <span>{current!.invoice.serviceCost + current!.invoice.transactionFee}  {current?.invoice.currency}  </span>
+            
           </div>
         </div>
     <h2 className="text-black  text-end text-lg my-2">اختر طريقة الدفع</h2>
@@ -407,21 +447,32 @@ export default function PaymentPage() {
           ))}
         </div>
 
-        {/* Account Inputs */}
-        <div className="space-y-4 mb-4 text-end">
-          <label className=" text-black ml-0"> رقم الحساب</label>
-          <input
-            type="text"
-            placeholder="أدخل رقم حسابك"
-            className="w-full p-4 border border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white placeholder-gray-500 text-end text-black"
-          />
-           <label className=" text-black">الرقم السري للدفع الإلكتروني (IPIN)</label>
-          <input
-            type="text"
-            placeholder="أدخل الرقم السري للدفع الإلكتروني (IPIN)"
-            className="w-full p-4 border border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white placeholder-gray-500 text-end text-black"
-          />
-        </div>
+    {/* Account Inputs */}
+<div className="space-y-5 mb-6 text-end">
+
+  {/* Account Number */}
+  <div className="space-y-2">
+    <label className="block text-black">رقم الحساب</label>
+    <input
+      type="text"
+      placeholder="أدخل رقم حسابك"
+      className="w-full p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white placeholder-gray-500 text-end text-black shadow-sm"
+    />
+  </div>
+
+  {/* IPIN */}
+  <div className="space-y-2">
+    <label className="block text-black">
+      الرقم السري للدفع الإلكتروني (IPIN)
+    </label>
+    <input
+      type="text"
+      placeholder="أدخل الرقم السري للدفع الإلكتروني (IPIN)"
+      className="w-full p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white placeholder-gray-500 text-end text-black shadow-sm"
+    />
+  </div>
+
+</div>
 
         {/* Confirm / Cancel Buttons */}
         <div className="flex flex-col gap-3">
@@ -443,7 +494,7 @@ export default function PaymentPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
             {/* Modal Header */}
-            <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex justify-between items-center p-4 border-b text-black">
               <h2 className="text-lg font-bold">
                 How to pay via {methods.find(m => m.id === showBravoModal)?.name}
               </h2>
