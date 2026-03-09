@@ -6,55 +6,58 @@ import { AiOutlineCopy, AiOutlineCalendar, AiOutlineUser, AiOutlineIdcard, AiOut
 
 export default function PaymentPage() {
   const methods = [
-    {
-      id: "cashi",
-      name: "كاشي",
-      img: "/cashi.jpg",
-      beneficiary: "أعمال معز للحلول الرقمية",
-      accountNumber: "1234567",
-      invoice: {
-        number: "#10001",
-        beneficiaryName: "أعمال معز للحلول الرقمية",
-        clientName: "Amal Ghanem",
-        date: "20 فبراير 2026",
-        serviceCost: 1000,
-        transactionFee: 0,
-        currency: "جنيه",
-      },
+  {
+    id: "cashi",
+    name: "كاشي",
+    img: "/cashi.jpg",
+    comingSoon: true, // <-- mark as coming soon
+    beneficiary: "أعمال معز للحلول الرقمية",
+    accountNumber: "1234567",
+    invoice: {
+      number: "#10001",
+      beneficiaryName: "أعمال معز للحلول الرقمية",
+      clientName: "Amal Ghanem",
+      date: "20 فبراير 2026",
+      serviceCost: 1000,
+      transactionFee: 0,
+      currency: "جنيه",
     },
-    {
-      id: "neel",
-      name: "بنك النيل",
-      img: "/bank1.png",
-      beneficiary: "شركة النيل للتقنية",
-      accountNumber: "7654321",
-      invoice: {
-        number: "#10002",
-        beneficiaryName: "شركة النيل للتقنية",
-        clientName: "Omar Ali",
-        date: "21 فبراير 2026",
-        serviceCost: 1200,
-        transactionFee: 10,
-        currency: "جنيه",
-      },
+  },
+  {
+    id: "neel",
+    name: "بنك النيل",
+    img: "/bank1.png",
+    comingSoon: true,
+    beneficiary: "شركة النيل للتقنية",
+    accountNumber: "7654321",
+    invoice: {
+      number: "#10002",
+      beneficiaryName: "شركة النيل للتقنية",
+      clientName: "Omar Ali",
+      date: "21 فبراير 2026",
+      serviceCost: 1200,
+      transactionFee: 10,
+      currency: "جنيه",
     },
-    {
-      id: "bankak",
-      name: "بنك الخرطوم",
-      img: "/bank2.jpeg",
-      beneficiary: "أعمال معز للحلول الرقمية",
-      accountNumber: "8199246",
-      invoice: {
-        number: "#12435",
-        beneficiaryName: "Moaz Digital Solutions",
-        clientName: "Amal Ghanem",
-        date: "25 يناير 2026",
-        serviceCost: 1000,
-        transactionFee: 0,
-        currency: "جنيه",
-      },
+  },
+  {
+    id: "bankak",
+    name: "بنك الخرطوم",
+    img: "/bank2.jpeg",
+    comingSoon: false,
+    beneficiary: "أعمال معز للحلول الرقمية",
+    accountNumber: "8199246",
+    invoice: {
+      number: "#12435",
+      beneficiaryName: "Moaz Digital Solutions",
+      clientName: "Amal Ghanem",
+      date: "25 يناير 2026",
+      serviceCost: 1000,
+      transactionFee: 0,
+      currency: "جنيه",
     },
-  ];
+  },
+];
   const [lang, setLang] = useState("ar");
   const t = {
   ar: {
@@ -144,14 +147,14 @@ export default function PaymentPage() {
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-3">
-              <AiOutlineUser className="text-green-500 text-xl" />
+              <AiOutlineUser className="text-blue-500 text-xl" />
               <div className="flex flex-col">
                 <p className="text-gray-400 text-xs">:اسم العميل</p>
                 <p className="font-semibold text-gray-800">{current?.invoice.clientName}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-3">
-              <AiOutlineCalendar className="text-red-500 text-xl" />
+              <AiOutlineCalendar className="text-blue-500 text-xl" />
               <div className="flex flex-col">
                 <p className="text-gray-400 text-xs">:تاريخ الإصدار</p>
                 <p className="font-semibold text-gray-800">{current?.invoice.date}</p>
@@ -196,38 +199,56 @@ export default function PaymentPage() {
           </div>
 
           <div className="flex gap-3 flex-wrap justify-end">
-          {methods.map((method) => (
-  <div key={method.id} className="flex flex-col items-center">
-    <div
-      onClick={() => setSelected(method.id)}
-      className={`relative cursor-pointer border rounded-xl w-[120px] h-[120px]
-        flex flex-col justify-between transition-all duration-200 transform shadow-md
-        hover:border-blue-500 hover:shadow-lg hover:scale-105 hover:bg-blue-100
-        ${selected === method.id ? "border-blue-600 shadow-md scale-105 bg-blue-50" : "border-gray-300"}`}
-    >
-      <div className="flex-1 flex items-center justify-center pt-3">
-        <Image
-          src={method.img}
-          alt={method.name}
-          width={70}
-          height={70}
-          className="object-contain"
-        />
-      </div>
-      <p className="text-sm text-gray-400 text-center w-full pb-1">{method.name}</p>
-    </div>
+   {methods.map((method) => (
+    <div key={method.id} className="flex flex-col items-center min-w-[120px] relative">
+<div
+  onClick={() => !method.comingSoon && setSelected(method.id)}
+  className={`relative overflow-hidden cursor-pointer border-2 rounded-xl w-[120px] h-[120px]
+  flex items-center justify-center transition-all duration-200 transform
+  hover:border-blue-500 hover:shadow-lg hover:scale-105 hover:bg-blue-100
+  ${selected === method.id ? "border-blue-600 shadow-md scale-105 bg-blue-50" : "border-gray-300"}
+  ${method.comingSoon ? "opacity-80 cursor-not-allowed" : ""}`}
+>
+  <Image
+    src={method.img}
+    alt={method.name}
+    width={70}
+    height={70}
+    className="object-contain"
+  />
 
-    {/* Bravo Link with bank name */}
-    <p
-      className="flex items-center justify-center text-blue-600 text-xs mt-1 cursor-pointer hover:underline gap-1"
-      onClick={() => setShowBravoModal(method.id)} // pass bank id
-    >
-      How to pay via {method.name}
-      <AiOutlineQuestionCircle className="text-blue-700 text-sm" />
-    </p>
-  </div>
-))}
+  {/* Checkmark if selected */}
+  {selected === method.id && !method.comingSoon && (
+    <div className="absolute top-2 right-2 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+      ✓
+    </div>
+  )}
+
+  {/* Coming Soon Overlay */}
+{/* Coming Soon Ribbon */}
+{method.comingSoon && (
+  <Image
+    src="/soon3.png"
+    alt="قريبا"
+    width={70}
+    height={70}
+className="absolute -top-5 -left-6 rotate-[-25deg] w-30 z-20"
+  />
+)}
+</div>
+    </div>
+  ))}
           </div>
+          {/* Independent “How to pay” container */}
+{selected && (
+  <div
+    onClick={() => setShowBravoModal(selected)} // <-- open modal for the selected method
+    className="bg-blue-50 p-4 rounded-xl text-center text-blue-700 font-semibold mb-4 cursor-pointer hover:bg-blue-100 flex justify-start gap-2 hover:cursor-pointer"
+  >
+     
+    <AiOutlineQuestionCircle className="inline-block text-blue-700 " />  طريقة الدفع عن طريق {methods.find((m) => m.id === selected)?.name}
+  </div>
+)}
 
           {/* Beneficiary Info */}
           <div className="border-2 border-blue-500 rounded-xl p-6 space-y-2 bg-blue-50">
@@ -300,7 +321,7 @@ export default function PaymentPage() {
       
       {/* Modal Header */}
       <div className="flex justify-between items-center p-4 border-b">
-        <h2 className="text-lg font-bold">
+        <h2 className="text-lg font-bold text-black">
           How to pay via {methods.find(m => m.id === showBravoModal)?.name}
         </h2>
         <button
@@ -392,7 +413,15 @@ export default function PaymentPage() {
 )}
     </div>
        <div className="bg-gray-50 min-h-screen flex justify-center p-2 sm:p-6 lg:hidden">
+       
       <div className="w-full max-w-md">
+        {/* Test Mode Banner */}
+<div className="flex flex-col items-center mb-3 ">
+  <div className="bg-orange-500 text-white px-4 py-1 rounded-md font-bold text-sm">
+    وضع الاختبار
+  </div>
+  <div className="w-full h-[2px] bg-gray-300 "></div>
+</div>
 
         {/* Invoice Summary */}
         <div className="bg-gray-100 rounded-xl p-4 shadow-sm space-y-2 mb-4 mt-4" dir="auto">
@@ -412,56 +441,79 @@ export default function PaymentPage() {
             
           </div>
         </div>
-    <h2 className="text-black  text-end text-lg my-2">اختر طريقة الدفع</h2>
+<h2 className="text-black text-center text-lg my-2 font-extrabold">
+  اختر طريقة الدفع
+</h2>
         {/* Payment Methods - scrollable */}
-        <div className="overflow-x-auto flex gap-3 py-2 mb-4 items-center justify-center">
-      
-          {methods.map((method) => (
-            <div key={method.id} className="flex flex-col items-center min-w-[120px] ">
-              <div
-                onClick={() => setSelected(method.id)}
-                className={`cursor-pointer border-2 rounded-xl w-[120px] h-[120px]
-                  flex flex-col justify-between transition-all duration-200 transform
-                  hover:border-blue-500 hover:shadow-lg hover:scale-105 hover:bg-blue-100
-                  ${selected === method.id ? "border-blue-600 shadow-md scale-105 bg-blue-50" : "border-gray-300"}`}
-              >
-                <div className="flex-1 flex items-center justify-center pt-3">
-                  <Image
-                    src={method.img}
-                    alt={method.name}
-                    width={70}
-                    height={70}
-                    className="object-contain"
-                  />
-                </div>
-                <p className="text-sm text-gray-400 text-center w-full pb-1">{method.name}</p>
-              </div>
-              <p
-                className="flex items-center justify-center text-blue-600 text-xs mt-1 cursor-pointer hover:underline gap-1"
-                onClick={() => setShowBravoModal(method.id)}
-              >
-                How to pay via {method.name}
-                <AiOutlineQuestionCircle className="text-blue-700 text-sm" />
-              </p>
-            </div>
-          ))}
-        </div>
+   {/* Images Scroll */}
+<div className="overflow-x-auto flex gap-3 py-2 mb-4 items-center justify-center">
+  {methods.map((method) => (
+    <div key={method.id} className="flex flex-col items-center min-w-[120px] relative">
+<div
+  onClick={() => !method.comingSoon && setSelected(method.id)}
+  className={`relative overflow-hidden cursor-pointer border-2 rounded-xl w-[120px] h-[120px]
+  flex items-center justify-center transition-all duration-200 transform
+  hover:border-blue-500 hover:shadow-lg hover:scale-105 hover:bg-blue-100
+  ${selected === method.id ? "border-blue-600 shadow-md scale-105 bg-blue-50" : "border-gray-300"}
+  ${method.comingSoon ? "opacity-80 cursor-not-allowed" : ""}`}
+>
+  <Image
+    src={method.img}
+    alt={method.name}
+    width={70}
+    height={70}
+    className="object-contain"
+  />
 
+  {/* Checkmark if selected */}
+  {selected === method.id && !method.comingSoon && (
+    <div className="absolute top-2 right-2 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+      ✓
+    </div>
+  )}
+
+  {/* Coming Soon Overlay */}
+{/* Coming Soon Ribbon */}
+{method.comingSoon && (
+  <Image
+    src="/soon3.png"
+    alt="قريبا"
+    width={70}
+    height={70}
+className="absolute -top-5 -left-6 rotate-[-25deg] w-30 z-20"
+  />
+)}
+</div>
+    </div>
+  ))}
+</div>
+
+{/* Independent “How to pay” container */}
+{/* Independent “How to pay” container */}
+{selected && (
+  <div
+    onClick={() => setShowBravoModal(selected)} // <-- open modal for the selected method
+    className="bg-blue-50 p-4 rounded-xl text-center text-blue-700 font-semibold mb-4 cursor-pointer hover:bg-blue-100 flex justify-start gap-2 hover:cursor-pointer"
+  >
+     
+    <AiOutlineQuestionCircle className="inline-block text-blue-700 " />  طريقة الدفع عن طريق {methods.find((m) => m.id === selected)?.name}
+  </div>
+)}
     {/* Account Inputs */}
 <div className="space-y-5 mb-6 text-end">
 
   {/* Account Number */}
-  <div className="space-y-2">
+  {/* <div className="space-y-2">
     <label className="block text-black">رقم الحساب</label>
     <input
       type="text"
       placeholder="أدخل رقم حسابك"
       className="w-full p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white placeholder-gray-500 text-end text-black shadow-sm"
     />
-  </div>
+  </div> */}
 
   {/* IPIN */}
-  <div className="space-y-2">
+  {/* <div className="space-y-2">
     <label className="block text-black">
       الرقم السري للدفع الإلكتروني (IPIN)
     </label>
@@ -470,13 +522,80 @@ export default function PaymentPage() {
       placeholder="أدخل الرقم السري للدفع الإلكتروني (IPIN)"
       className="w-full p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white placeholder-gray-500 text-end text-black shadow-sm"
     />
-  </div>
+  </div> */}
 
+    {/* Beneficiary Info */}
+          <div className="border-2 border-blue-500 rounded-xl p-6 space-y-2 bg-blue-50">
+            <h3 className="text-lg font-semibold text-black">معلومات المستفيد</h3>
+            <p className="text-gray-500">{current?.beneficiary}</p>
+            <div className="bg-blue-100 rounded-lg p-4 flex justify-between items-center">
+              <button
+                onClick={() => handleCopy(current?.accountNumber || "")}
+                className="bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-800 transition cursor-pointer"
+              >
+                نسخ
+                  <AiOutlineCopy className="text-lg" />
+              </button>
+              <div className="text-right flex flex-col">
+                <span className="text-sm text-gray-500">: رقم الحساب</span>
+                <span className="text-lg font-semibold text-gray-500">{current?.accountNumber}</span>
+              </div>
+            </div>
+            {copySuccess && <span className="text-green-600 text-sm font-semibold mt-2 block">تم نسخ رقم الحساب!</span>}
+          </div>
+
+          {/* Upload Proof */}
+          <div>
+            <h2 className="text-blue-700 mb-2">طريقة الدفع عن طريق {current?.name}؟</h2>
+            <p className="mb-2 font-medium text-gray-400">صورة إشعار التحويل</p>
+
+            <div className="border-2 border-dashed border-blue-500 rounded-xl p-6 space-y-4 bg-blue-100">
+              <input
+                type="file"
+                onChange={handleFile}
+                className="w-full border rounded-lg p-2 bg-blue-500 cursor-pointer hover:bg-blue-600 transition"
+              />
+              {preview && (
+                <div className="relative mt-3 border rounded-lg overflow-hidden shadow-md">
+                  <img src={preview} className="w-full object-contain" />
+                  <button
+                    onClick={() => setPreview(null)}
+                    className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
+                  >
+                    إزالة
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Confirm Payment Button */}
+          {/* <div className="flex justify-center mt-6">
+            <button
+              onClick={() => {
+                if (!preview) {
+                  alert("يرجى رفع صورة الإشعار قبل تأكيد الدفع!");
+                  return;
+                }
+                alert(`تم تأكيد الدفع عبر ${current?.name}`);
+              }}
+              className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-3 rounded-xl text-lg font-semibold hover:scale-105 hover:shadow-lg transition transform cursor-pointer"
+            >
+              تأكيد الدفع
+            </button>
+          </div> */}
 </div>
 
         {/* Confirm / Cancel Buttons */}
         <div className="flex flex-col gap-3">
           <button
+            onClick={() => {
+                if (!preview) {
+                  alert("يرجى رفع صورة الإشعار قبل تأكيد الدفع!");
+                  return;
+                }
+                alert(`تم تأكيد الدفع عبر ${current?.name}`);
+              }}
             className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
           >
             ادفع {current?.invoice.serviceCost} {current?.invoice.currency}
